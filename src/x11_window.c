@@ -1185,8 +1185,6 @@ static void processEvent(XEvent *event)
             {
                 _glfw.x11.xkb.group = ((XkbEvent*) event)->state.group;
             }
-
-            return;
         }
     }
 
@@ -2001,7 +1999,7 @@ int _glfwPlatformCreateWindow(_GLFWwindow* window,
                               const _GLFWctxconfig* ctxconfig,
                               const _GLFWfbconfig* fbconfig)
 {
-    Visual* visual = NULL;
+    Visual* visual;
     int depth;
 
     if (ctxconfig->client != GLFW_NO_API)
@@ -2027,7 +2025,8 @@ int _glfwPlatformCreateWindow(_GLFWwindow* window,
         }
     }
 
-    if (!visual)
+    if (ctxconfig->client == GLFW_NO_API ||
+        ctxconfig->source == GLFW_OSMESA_CONTEXT_API)
     {
         visual = DefaultVisual(_glfw.x11.display, _glfw.x11.screen);
         depth = DefaultDepth(_glfw.x11.display, _glfw.x11.screen);

@@ -142,8 +142,8 @@ static struct wl_buffer* createShmBuffer(const GLFWimage* image)
     if (fd < 0)
     {
         _glfwInputError(GLFW_PLATFORM_ERROR,
-                        "Wayland: Creating a buffer file for %d B failed: %s",
-                        length, strerror(errno));
+                        "Wayland: Creating a buffer file for %d B failed: %m",
+                        length);
         return NULL;
     }
 
@@ -151,7 +151,7 @@ static struct wl_buffer* createShmBuffer(const GLFWimage* image)
     if (data == MAP_FAILED)
     {
         _glfwInputError(GLFW_PLATFORM_ERROR,
-                        "Wayland: mmap failed: %s", strerror(errno));
+                        "Wayland: mmap failed: %m");
         close(fd);
         return NULL;
     }
